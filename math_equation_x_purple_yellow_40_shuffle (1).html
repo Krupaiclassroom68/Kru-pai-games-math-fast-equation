@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Kru Pai Classroom – เกมสมการ x (40 ข้อ / 5 นาที) – ม่วง-เหลือง (สุ่ม)</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#faf5ff; --bg2:#fffbea;
+  --ink:#2b1742; --muted:#7a6a90; --line:#e6d5ff;
+  --pri:#7e57c2; --pri2:#5e35b1;
+  --acc:#ffd54d;
+  --ok:#18b77a; --bad:#ff5b7d;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Fredoka,sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2))}
+.hidden{display:none!important}
+.btn{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;border:none;border-radius:16px;padding:14px 18px;font-weight:800;cursor:pointer;font-size:18px;box-shadow:0 8px 18px rgba(94,53,177,.20)}
+.btn.lg{font-size:20px;padding:16px 20px;border-radius:18px}
+.ghost{background:#fff;color:var(--pri2);border:2px solid var(--pri)}
+.card{width:min(820px,94vw);background:#fff;border:2px solid var(--line);border-radius:24px;box-shadow:0 16px 30px rgba(126,87,194,.18);padding:24px}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:64px;height:64px;border-radius:20px;background:radial-gradient(circle at 30% 30%,#fff9c4,#ffd54d 60%,#ffca28);display:grid;place-items:center;color:#5e35b1;font-weight:900;font-size:22px;box-shadow:0 6px 16px rgba(255,213,77,.5)}
+.title{font-size:28px;font-weight:900;color:#5e35b1}
+.subtitle{color:var(--muted);font-size:14px}
+.ribbon{display:flex;align-items:center;gap:10px;background:linear-gradient(90deg,#7e57c2,#b39ddb);color:#221133;border-radius:16px;padding:10px 14px;box-shadow:0 8px 18px rgba(126,87,194,.18)}
+.q{font-size:clamp(26px,6.3vw,50px);font-weight:900;text-align:center;background:#fff;border:2px dashed var(--line);border-radius:24px;box-shadow:0 12px 28px rgba(126,87,194,.10);padding:22px;position:relative}
+.q::after{content:"𝑥"; position:absolute; right:16px; top:14px; font-size:24px; opacity:.25; font-style:italic; color:#5e35b1}
+.ans{min-width:220px;display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;font-size:clamp(26px,6vw,44px);font-weight:900;border:3px dashed var(--line);border-radius:16px;background:#f8fbff;color:#2d4e6d}
+.ans.good{border:3px solid var(--ok);background:#eafff6;color:#095e3f;box-shadow:0 0 0 4px rgba(24,183,122,.12) inset}
+.ans.bad{border:3px solid var(--bad);background:#fff0f4;color:#8a1230;box-shadow:0 0 0 4px rgba(255,91,125,.10) inset}
+.tip{font-size:14px;color:var(--muted);margin-top:6px}
+.stars{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;min-height:32px;margin-top:10px}
+.stk{font-size:28px;display:inline-block;transform:translateY(0);animation:pop .22s ease-out}
+@keyframes pop{0%{transform:scale(.6) translateY(6px);opacity:.0}100%{transform:scale(1) translateY(0);opacity:1}}
+.keypad{position:sticky;bottom:0;background:#fff;border-top:2px solid var(--line);padding:12px}
+.keys{width:min(820px,94vw);margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.key{padding:16px 0;text-align:center;font-size:24px;font-weight:900;border-radius:16px;background:#ede7f6;color:#2b1742;border:2px solid #d1c4e9;cursor:pointer;box-shadow:0 4px 10px rgba(126,87,194,.10)}
+.key.wide{grid-column:span 3}
+.footer-note{font-size:12px;color:var(--muted);margin-top:8px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:#fffbe6;border:2px dashed #ffe082;color:#8a6d00;border-radius:14px;padding:6px 12px;font-weight:800}
+</style>
+</head>
+<body>
+
+<section id="start">
+  <div class="card">
+    <div class="brand"><div class="logo">KP</div><div><div class="title">Kru Pai Classroom – เกมสมการ x</div><div class="subtitle">หาค่า x จากสมการง่าย ๆ (40 ข้อ / 5 นาที)</div></div></div>
+    <div class="ribbon">💜💛 ธีมม่วง-เหลือง น่ารักสดใส ฝึกคิดไวแก้สมการ!</div>
+    <p><b>วิธีเล่น:</b> ดูสมการ แล้วพิมพ์ <b>ค่าของ x</b> เท่านั้น เช่น <i>2x + 5 = 13 → 4</i></p>
+    <p class="badge">ระบบตรวจแบบ “ค่าเท่ากัน” → <b>4</b>, <b>4.0</b>, <b>4.00</b> = ถูกเหมือนกัน ✅</p>
+    <label>ชื่อนักเรียน:</label>
+    <input id="player" type="text" placeholder="เช่น น้องพาย" style="width:100%;padding:14px;font-size:18px;margin:10px 0;border:2px solid var(--line);border-radius:14px"/>
+    <button id="btnStart" class="btn lg">เริ่มเล่นเลย 💫</button>
+    <div class="footer-note">© Kru Pai Classroom</div>
+  </div>
+</section>
+
+<section id="game" class="hidden">
+  <div class="card">
+    <div style="font-size:20px;font-weight:800;margin-bottom:10px">ชื่อ: <span id="who">—</span> | ข้อที่ <span id="idx">1</span>/40 | คะแนน <span id="starsCount">0</span></div>
+    <div class="q"><span id="expr">—</span> ⇒ x = <span id="ans" class="ans">?</span></div>
+    <div style="margin-top:8px">ผิดได้อีก: <b id="retryLeft">1</b> ครั้ง | เวลา: <span id="timeLeft">5:00</span></div>
+    <div id="stars" class="stars"></div>
+    <div id="formatTip" class="tip hidden">ตอบได้ทั้ง <b>จำนวนเต็ม</b> และ <b>ทศนิยม .0</b> เช่น 4 หรือ 4.0 ✅</div>
+  </div>
+  <div class="keypad"><div class="keys" id="keys"></div></div>
+</section>
+
+<section id="done" class="hidden">
+  <div class="card" style="text-align:center">
+    <h2>สรุปผล</h2>
+    <p><b id="sumName">—</b> ทำคะแนนได้ <b id="sumStars">0</b></p>
+    <p>ทำไปทั้งหมด <b id="sumIdx">0</b> / 40 ข้อ</p>
+    <div id="finalStars" class="stars"></div>
+    <button id="btnPlayAgain" class="btn lg">เล่นอีกครั้ง</button>
+    <button id="btnToHome" class="btn lg ghost">กลับหน้าแรก</button>
+  </div>
+</section>
+
+<script>
+const $=s=>document.querySelector(s);
+const bank = [{"text": "2x + 5 = 13", "answer": "4"}, {"text": "3x − 7 = 11", "answer": "6"}, {"text": "x + 9 = 16", "answer": "7"}, {"text": "5x = 35", "answer": "7"}, {"text": "x − 12 = 8", "answer": "20"}, {"text": "(x ÷ 5) + 12 = 20", "answer": "40"}, {"text": "4x + 3 = 31", "answer": "7"}, {"text": "6x − 9 = 27", "answer": "6"}, {"text": "x ÷ 4 = 7", "answer": "28"}, {"text": "(x + 8) ÷ 3 = 10", "answer": "22"}, {"text": "7x + 1 = 36", "answer": "5"}, {"text": "9x − 18 = 9", "answer": "3"}, {"text": "x − 5 = 20", "answer": "25"}, {"text": "2(x + 3) = 18", "answer": "6"}, {"text": "(x − 4) ÷ 2 = 6", "answer": "16"}, {"text": "8x = 64", "answer": "8"}, {"text": "(x ÷ 3) − 4 = 5", "answer": "27"}, {"text": "5(x − 2) = 25", "answer": "7"}, {"text": "(x + 6) ÷ 4 = 5", "answer": "14"}, {"text": "3x + 12 = 33", "answer": "7"}, {"text": "2x − 10 = 6", "answer": "8"}, {"text": "4(x + 2) = 28", "answer": "5"}, {"text": "(x − 7) ÷ 3 = 4", "answer": "19"}, {"text": "10x + 5 = 55", "answer": "5"}, {"text": "x ÷ 6 = 9", "answer": "54"}, {"text": "7x − 14 = 35", "answer": "7"}, {"text": "(2x) + 9 = 25", "answer": "8"}, {"text": "(x + 12) ÷ 6 = 7", "answer": "30"}, {"text": "11x = 99", "answer": "9"}, {"text": "x + 15 = 40", "answer": "25"}, {"text": "3(x − 4) = 21", "answer": "11"}, {"text": "(x ÷ 4) − 2 = 8", "answer": "40"}, {"text": "9x + 9 = 45", "answer": "4"}, {"text": "x − 18 = 7", "answer": "25"}, {"text": "5x + 10 = 45", "answer": "7"}, {"text": "(x + 9) ÷ 3 = 8", "answer": "15"}, {"text": "12x = 96", "answer": "8"}, {"text": "(x − 10) ÷ 5 = 3", "answer": "25"}, {"text": "8x − 16 = 48", "answer": "8"}, {"text": "x ÷ 8 + 5 = 12", "answer": "56"}]; // 40 items in fixed order
+let problems = [];      // will be shuffled per game
+
+const state = {name:"นักเรียน",limit:40,timeLimit:300,idx:0,stars:0,input:"",timer:null,timeLeft:300,running:false,retry:1,shownFormatTip:false};
+
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } }
+function fmtTime(sec){const m=Math.floor(sec/60),s=sec%60;return `${m}:${String(s).padStart(2,"0")}`;}
+function setHUD(){ $("#who").textContent=state.name; $("#idx").textContent=state.idx+1; $("#starsCount").textContent=state.stars; $("#retryLeft").textContent=state.retry; $("#timeLeft").textContent=fmtTime(state.timeLeft);}
+function showExpr(){ $("#expr").textContent=problems[state.idx].text; $("#ans").textContent=state.input||"?"; $("#ans").classList.remove("good","bad"); }
+
+// Emoji stickers
+function addSmile(){ const s=document.createElement("span"); s.className="stk"; s.textContent="😊"; $("#stars").appendChild(s); }
+function addAngry(){ const b=document.createElement("span"); b.className="stk"; b.textContent="😡"; $("#stars").appendChild(b); }
+function addScore(){ state.stars++; $("#starsCount").textContent=state.stars; }
+
+function numericEqual(a,b){ const x=parseFloat(a), y=parseFloat(b); if(Number.isNaN(x)||Number.isNaN(y)) return false; return Math.abs(x-y) < 1e-9; }
+
+function pushDigit(d){ if(!state.running)return; if(d==="." && state.input.includes(".")) return; state.input+=d; showExpr(); }
+function backspace(){ state.input=state.input.slice(0,-1); showExpr(); }
+
+function submit(){
+  if(!state.running||state.input==="")return;
+  const correct=problems[state.idx].answer;
+  if(numericEqual(state.input, correct)){
+    $("#ans").classList.add("good");
+    addScore(); addSmile();
+    setTimeout(next, 220);
+  }else{
+    $("#ans").classList.add("bad");
+    if(!state.shownFormatTip){
+      const x=parseFloat(state.input), y=parseFloat(correct);
+      if(!Number.isNaN(x) && !Number.isNaN(y) && Math.abs(x-y)<1e-9){
+        $("#formatTip").classList.remove("hidden"); state.shownFormatTip=true;
+      }
+    }
+    if(state.retry>0){ state.retry--; setHUD(); setTimeout(()=>{ state.input=""; showExpr(); }, 160); }
+    else{ addAngry(); setTimeout(next, 220); }
+  }
+}
+
+function next(){ if(state.idx>=state.limit-1){ finish(); return; } state.idx++; state.input=""; state.retry=1; setHUD(); showExpr(); }
+function startTimer(){ clearInterval(state.timer); state.timeLeft=state.timeLimit; state.timer=setInterval(()=>{ if(!state.running)return; state.timeLeft--; setHUD(); if(state.timeLeft<=0) finish(); }, 1000); }
+function start(){
+  state.name=$("#player").value||"นักเรียน";
+  state.idx=0; state.stars=0; state.input=""; state.retry=1; state.running=true; state.shownFormatTip=false;
+  $("#formatTip").classList.add("hidden"); $("#stars").innerHTML="";
+  // shuffle a fresh copy of bank into problems each start
+  problems = JSON.parse(JSON.stringify(bank));
+  shuffle(problems);
+  $("#start").classList.add("hidden"); $("#done").classList.add("hidden"); $("#game").classList.remove("hidden");
+  setHUD(); showExpr(); startTimer();
+}
+function finish(){ if(!state.running)return; state.running=false; clearInterval(state.timer); $("#sumName").textContent=state.name; $("#sumStars").textContent=state.stars; $("#sumIdx").textContent=state.idx+1; const fin=$("#finalStars"); fin.innerHTML=""; for(let i=0;i<state.stars;i++){ const s=document.createElement("span"); s.className="stk"; s.textContent="😊"; fin.appendChild(s); } $("#game").classList.add("hidden"); $("#done").classList.remove("hidden"); }
+
+// Keypad
+;(function(){const keys=["7","8","9","4","5","6","1","2","3","0",".","⌫","ส่ง"];const box=$("#keys");keys.forEach(k=>{const b=document.createElement("div");b.className="key"+(k==="ส่ง"?" wide":"");b.textContent=k;b.onclick=()=>{if(k==="⌫")backspace();else if(k==="ส่ง")submit();else pushDigit(k);};box.appendChild(b);});})();
+document.addEventListener("keydown",e=>{if($("#game").classList.contains("hidden"))return;if(/[0-9.]/.test(e.key))pushDigit(e.key);else if(e.key==="Backspace")backspace();else if(e.key==="Enter")submit();});
+
+// Buttons
+$("#btnStart").onclick=start; $("#btnPlayAgain").onclick=start; $("#btnToHome").onclick=()=>{$("#done").classList.add("hidden"); $("#start").classList.remove("hidden");};
+</script>
+</body>
+</html>
